@@ -47,7 +47,6 @@ describe('Governor', () => {
       const { owner, tokenDeployed } = await deployGovernor()
       
       const name = await tokenDeployed.name()
-      console.log(await tokenDeployed.totalSupply())
       expect(name).to.equal('Francis')
     })
 
@@ -68,7 +67,7 @@ describe('Governor', () => {
       expect(typeof timestamp).to.equal('bigint')
     })
 
-    it("Should propose, vote, queue, and execute a proposal", async function () {
+    it("Should propose, vote, and execute a proposal", async function () {
       const { tokenDeployed: token, governorDeployed }  = await deployGovernor()
       const [owner, voter1, voter2] = await hre.ethers.getSigners()
 
@@ -90,7 +89,7 @@ describe('Governor', () => {
       const targets = [await token.getAddress()];
       const values = [0];
       const sigs = ["mint(address,uint256)"];
-      const args = [[owner.address, hre.ethers.parseEther("1")]];
+      const args = [[owner.address, hre.ethers.parseEther("10")]];
       const calldatas = args.map((arg, i) =>
         token.interface.encodeFunctionData(sigs[i], arg)
       );
